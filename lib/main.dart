@@ -1,6 +1,8 @@
 import 'package:flatter_quizzler/question.dart';
+import 'package:flatter_quizzler/question_brain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(const Quizzler());
 
@@ -31,57 +33,52 @@ class QuizePage extends StatefulWidget {
 }
 
 class _QuizePageState extends State<QuizePage> {
-  List<Widget> scoreKeeper = [
-    /*const Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    const Icon(
-      Icons.close,
-      color: Colors.red,
-    ),*/
-  ];
+  int scoreCount = 0;
+  List<Widget> scoreKeeper = [];
 
-  List<Question> questions = [
-    Question('Birds can fly.', true),
-    Question('You can lead a cow down stairs not down stairs.', false),
-    Question('Approximately one quarter of human bones are in feet.', true),
-    Question('A slug\'s blood is green.', true),
-  ];
+  //creating an instance of QuestionBrain class
+  //where all functionality stays
+  QuestionBrain questionBrain = QuestionBrain();
 
-  /*List<String> questionList = [
-    'Birds can fly.',
-    'You can lead a cow down stairs not down stairs.',
-    'Approximately one quarter of human bones are in feet.',
-    'A slug\'s blood is green.'
-  ];
+  void checkAnswer(bool ans) {
+    if (questionBrain.isQuestionsEnd()) {
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: 'Qizzler Finished!',
+        desc: 'Score : $scoreCount out of ${questionBrain.getQuestionLength()}',
+        buttons: [
+          DialogButton(
+            child: const Text(
+              "Restart",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              setState(() {
+                scoreCount = 0;
+                //questionBrain.isQuestionEnd = false;
+                questionBrain.questionNumber = 0;
+                scoreKeeper.clear();
+                Navigator.pop(context);
+              });
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    } else {
+      setState(() {
+        if (questionBrain.getQuestionAns() == ans) {
+          scoreCount++;
+          scoreKeeper.add(const Icon(Icons.check, color: Colors.green));
+        } else {
+          scoreKeeper.add(const Icon(Icons.close, color: Colors.red));
+        }
+      });
 
-  List<bool> answerList = [true, false, true, true];*/
-
-  int questionNumber = 0;
-
-  void changeQuestions(bool ans) {
-    setState(() {
-      if (questions[questionNumber].answer == ans) {
-        scoreKeeper.add(
-          const Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
-      } else {
-        scoreKeeper.add(
-          const Icon(
-            Icons.close,
-            color: Colors.red,
-          ),
-        );
-      }
-
-      if (questionNumber < questions.length - 1) {
-        questionNumber++;
-      }
-    });
+      //after checking question change to the next answer
+      questionBrain.nextQuestion();
+    }
   }
 
   @override
@@ -92,7 +89,7 @@ class _QuizePageState extends State<QuizePage> {
         Expanded(
           child: Center(
             child: Text(
-              questions[questionNumber].questionText,
+              questionBrain.getQuestionText(),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -106,14 +103,11 @@ class _QuizePageState extends State<QuizePage> {
           child: FlatButton(
             color: Colors.green,
             onPressed: () {
-              changeQuestions(true);
+              checkAnswer(true);
             },
             child: const Text(
               'True',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
           ),
         ),
@@ -123,20 +117,20 @@ class _QuizePageState extends State<QuizePage> {
             color: Colors.red,
             onPressed: () {
               setState(() {
-                changeQuestions(false);
+                checkAnswer(false);
               });
             },
             child: const Text(
               'False',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
           ),
         ),
-        Row(
-          children: scoreKeeper,
+        Container(
+          padding: EdgeInsets.all(4.0),
+          child: Row(
+            children: scoreKeeper,
+          ),
         ),
       ],
     );

@@ -35,6 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  #RFlutter Alert is super customizable and easy-to-use alert/popup dialogs for Flutter.
+  #You may create reusable alert styles or add buttons as much as you want with ease.
+  rflutter_alert: ^2.0.4
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
