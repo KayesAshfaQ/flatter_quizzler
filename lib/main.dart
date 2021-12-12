@@ -57,7 +57,6 @@ class _QuizePageState extends State<QuizePage> {
                 scoreCount = 0;
                 //questionBrain.isQuestionEnd = false;
                 questionBrain.questionNumber = 0;
-                scoreKeeper.clear();
                 Navigator.pop(context);
               });
             },
@@ -69,9 +68,6 @@ class _QuizePageState extends State<QuizePage> {
       setState(() {
         if (questionBrain.getQuestionAns() == ans) {
           scoreCount++;
-          scoreKeeper.add(const Icon(Icons.check, color: Colors.green));
-        } else {
-          scoreKeeper.add(const Icon(Icons.close, color: Colors.red));
         }
       });
 
