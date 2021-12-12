@@ -13,6 +13,7 @@ class QuestionBrain {
     Question('A slug\'s blood is green.', true),
     Question('Buzz Aldrin\'s mother\'s maiden name was \"Moon\".', true),
     Question('It is illegal to pee in the Ocean in Portugal.', true),
+    Question('Chickens has wings.', true),
     Question(
         'No piece of square dry paper can be folded in half more than 7 times.',
         false),

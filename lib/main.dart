@@ -34,7 +34,6 @@ class QuizePage extends StatefulWidget {
 
 class _QuizePageState extends State<QuizePage> {
   int scoreCount = 0;
-  List<Widget> scoreKeeper = [];
 
   //creating an instance of QuestionBrain class
   //where all functionality stays
@@ -86,6 +85,17 @@ class _QuizePageState extends State<QuizePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text(
+            'Score : $scoreCount',
+            textAlign: TextAlign.end,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+          ),
+        ),
         Expanded(
           child: Center(
             child: Text(
@@ -124,12 +134,6 @@ class _QuizePageState extends State<QuizePage> {
               'False',
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(4.0),
-          child: Row(
-            children: scoreKeeper,
           ),
         ),
       ],
